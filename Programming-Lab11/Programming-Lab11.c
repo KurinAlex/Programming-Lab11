@@ -1,25 +1,21 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 
 #define MAX_SIZE 100
 #define DIFFERENT_CHARS_NUMBER 2
 
-int IsValid(char* s)
+int IsValid(const char* s)
 {
 	char used_chars[DIFFERENT_CHARS_NUMBER];
 	int count = 0;
-	int len = strlen(s);
-	int i = 0;
 
-	while (i < len && count < DIFFERENT_CHARS_NUMBER)
+	for (int i = 0; s[i] != '\0'; i++)
 	{
-		char ch = toupper(s[i++]);
+		char current_char = s[i];
 		int is_used = 0;
 		for (int j = 0; j < count; j++)
 		{
-			if (ch == used_chars[j])
+			if (current_char == used_chars[j])
 			{
 				is_used = 1;
 				break;
@@ -27,19 +23,11 @@ int IsValid(char* s)
 		}
 		if (!is_used)
 		{
-			used_chars[count++] = ch;
-		}
-	}
-
-	while (i < len)
-	{
-		char ch = toupper(s[i++]);
-		for (int j = 0; j < DIFFERENT_CHARS_NUMBER; j++)
-		{
-			if (ch != used_chars[j])
+			if (count == DIFFERENT_CHARS_NUMBER)
 			{
 				return 1;
 			}
+			used_chars[count++] = current_char;
 		}
 	}
 	return 0;
@@ -79,6 +67,10 @@ int main()
 	}
 
 	printf("s after executing:\n");
+	if (n == 0)
+	{
+		printf("s is empty\n");
+	}
 	for (int i = 0; i < n; i++)
 	{
 		printf("s%d: %s\n", i + 1, s[i]);
