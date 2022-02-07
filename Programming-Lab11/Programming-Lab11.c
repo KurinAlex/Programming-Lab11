@@ -5,6 +5,19 @@
 #include <string.h>
 
 #define DIFFERENT_CHARS_NUMBER 2
+#define DELIMETER " "
+
+int CheckInput(char* s)
+{
+	for (int i = 0; s[i] != '\0'; i++)
+	{
+		if ((s[i] < 'A' || s[i] > 'Z') && (s[i] < 'a' || s[i] > 'z') && s[i] != ' ')
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
 
 int IsValid(char* s)
 {
@@ -38,27 +51,39 @@ int IsValid(char* s)
 int main()
 {
 	int n;
-	printf("Enter n: ");
-	scanf_s("%d", &n);
-	getchar();
-
-	char* s = (char*)calloc(n, sizeof(char));
 	do
 	{
-		printf("\nEnter s of size less than or equal n:\n");
-		gets(s);
-	} while (strlen(s) > n);
+		printf("Enter n, which is bigger or equal 1: ");
+		scanf("%d", &n);
+	} while (n < 1);
+	getchar();
 
-	char* output = (char*)calloc(n, sizeof(char));
-	char* word = strtok(s, " ");
-	while (word)
+	char* s = (char*)calloc(n + 1, sizeof(char));
+	do
 	{
-		if (IsValid(word))
+		printf("\nEnter s of size less than or equal n, which includes only english letters and spaces:\n");
+		scanf("%[^\n]s", s);
+		getchar();
+	} while (strlen(s) > n || !CheckInput(s));
+
+	int len = strlen(s) + 1;
+	s = (char*)realloc(s, len * sizeof(char));
+
+	char* output = (char*)calloc(len + 1, sizeof(char));
+	s = strtok(s, DELIMETER);
+	int is_previous = 0;
+	while (s)
+	{
+		if (IsValid(s))
 		{
-			strcat(output, word);
-			strcat(output, " ");
+			if (is_previous)
+			{
+				strcat(output, DELIMETER);
+			}
+			strcat(output, s);
+			is_previous = 1;
 		}
-		word = strtok(NULL, " ");
+		s = strtok(NULL, DELIMETER);
 	}
 
 	printf("\ns after executing:\n");
@@ -73,7 +98,6 @@ int main()
 
 	free(s);
 	free(output);
-	free(word);
 
 	getchar();
 }
