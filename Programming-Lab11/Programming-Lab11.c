@@ -71,17 +71,17 @@ int main()
 
 	char* output = (char*)calloc(len, sizeof(char));
 	s = strtok(s, DELIMETER);
-	int is_previous = 0;
+	int is_first = 1;
 	while (s)
 	{
 		if (IsValid(s))
 		{
-			if (is_previous)
+			if (!is_first)
 			{
 				strcat(output, DELIMETER);
 			}
 			strcat(output, s);
-			is_previous = 1;
+			is_first = 0;
 		}
 		s = strtok(NULL, DELIMETER);
 	}
