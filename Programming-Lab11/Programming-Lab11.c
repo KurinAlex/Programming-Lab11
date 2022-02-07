@@ -69,7 +69,7 @@ int main()
 	int len = strlen(s) + 1;
 	s = (char*)realloc(s, len * sizeof(char));
 
-	char* output = (char*)calloc(len + 1, sizeof(char));
+	char* output = (char*)calloc(len, sizeof(char));
 	s = strtok(s, DELIMETER);
 	int is_previous = 0;
 	while (s)
